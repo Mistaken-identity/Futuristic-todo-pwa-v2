@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f0f0f" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+  <title>Futuristic To-Do App</title>
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <h1>⚡ TaskForce</h1>
+      <p id="datetime"></p>
+    </header>
+
+    <main>
+      <section class="todo-section">
+        <h2>📝 Your Tasks</h2>
+        <form id="todo-form">
+          <input type="text" id="todo-input" placeholder="Enter your task..." required />
+          <button type="submit">Add</button>
+        </form>
+        <ul id="todo-list"></ul>
+      </section>
+
+      <section class="reminder-section">
+        <h2>🏋️ Daily Workout Reminder</h2>
+        <p>Remember to work out at least <strong>30 minutes</strong> today 💪</p>
+        <blockquote id="quote"></blockquote>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Teflon | Powered by Futurism</p>
+    </footer>
+  </div>
+
+  <script>
+    function updateDateTime() {
+      const now = new Date();
+      document.getElementById("datetime").textContent = now.toLocaleString();
+    }
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+
+    const form = document.getElementById("todo-form");
+    const input = document.getElementById("todo-input");
+    const list = document.getElementById("todo-list");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const li = document.createElement("li");
+      li.textContent = input.value;
+      li.addEventListener("click", () => li.classList.toggle("done"));
+      list.appendChild(li);
+      input.value = "";
+    });
+
+    const quotes = [
+      "Push yourself because no one else is going to do it for you.",
+      "The body achieves what the mind believes.",
+      "Excuses don’t burn calories.",
+      "Discipline is choosing between what you want now and what you want most.",
+      "Sweat is just fat crying."
+    ];
+    document.getElementById("quote").textContent = quotes[Math.floor(Math.random() * quotes.length)];
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('Service Worker Registered'));
+    }
+  </script>
+</body>
+</html>
